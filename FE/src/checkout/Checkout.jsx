@@ -130,9 +130,9 @@ export default function Checkout(props) {
                 throw new Error(errText || "Order failed");
             }
 
-            // ✅ Επιτυχής παραγγελία: ΑΔΕΙΑΖΟΥΜΕ ΤΟ ΚΑΛΑΘΙ (Redux + localStorage)
+            // Επιτυχής παραγγελία: ΑΔΕΙΑΖΟΥΜΕ ΤΟ ΚΑΛΑΘΙ (Redux + localStorage)
             dispatch(clearCart());
-            localStorage.removeItem("cartItems"); // προαιρετικό safety αν έχεις mirror στο LS
+            localStorage.removeItem("cartItems"); 
 
             // Προχώρα στην thank-you σελίδα
             setActiveStep((s) => s + 1);
@@ -153,16 +153,13 @@ export default function Checkout(props) {
             <Grid container sx={{ height: "100vh", mt: { xs: 0, sm: 0 } }}>
                 {/* Sidebar (Order summary) */}
                 <Grid
-                    item
-                    xs={12}
-                    sm={5}
-                    lg={4}
+                    size={{ xs: 12, sm: 5, lg: 4 }}
                     sx={{
-                        display: { xs: "none", sm: "flex" },
+                        display: { xs: "none", md: "flex" },
                         flexDirection: "column",
                         backgroundColor: "background.paper",
-                        borderRight: "1px solid",
-                        borderColor: "divider",
+                        borderRight: { sm: "none", md: "1px solid" },
+                        borderColor: { sm: "none", md: "divider" },
                         alignItems: "start",
                         pt: 16,
                         px: 10,
@@ -275,10 +272,7 @@ export default function Checkout(props) {
 
                 {/* Main content */}
                 <Grid
-                    item
-                    xs={12}
-                    sm={7}
-                    lg={8}
+                    size={{ sm: 12, md: 7, lg: 8 }}
                     sx={{
                         display: "flex",
                         flexDirection: "column",
