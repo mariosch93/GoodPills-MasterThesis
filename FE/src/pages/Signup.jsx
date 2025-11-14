@@ -54,7 +54,7 @@ export default function JoySignUp() {
       );
 
       setSuccessMessage("Sign Up successful!");
-      setTimeout(() => navigate("/home"), 1500);
+      setTimeout(() => navigate("/"), 1500);
     } catch (err) {
       if (err.response) {
         setError(

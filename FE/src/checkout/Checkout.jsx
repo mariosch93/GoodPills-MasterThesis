@@ -1,4 +1,3 @@
-// checkout/Checkout.jsx
 import * as React from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -23,8 +22,7 @@ import AppTheme from "./shared-theme/AppTheme";
 import medicineLogo from "../assets/images/medicineLogo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../stores/Cart";      // 👈 θα αδειάσουμε το καλάθι μετά την επιτυχία
-import { jwtDecode } from "jwt-decode";
+import { clearCart } from "../stores/Cart";
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -84,7 +82,7 @@ export default function Checkout(props) {
 
         return true;
     };
-
+    /*
     async function handlePlaceOrder(items) {
         try {
             setOrderError("");
@@ -140,7 +138,62 @@ export default function Checkout(props) {
             console.error("Error placing order:", err);
             setOrderError(err.message || "Failed to place order.");
         }
+    } */
+
+    async function handlePlaceOrder(items) {
+    try {
+        setOrderError("");
+
+        const token = localStorage.getItem("jwt_token");
+        if (!token) {
+            setOrderError("You must be logged in to place an order.");
+            return;
+        }
+
+        // ΠΑΙΡΝΟΥΜΕ ΤΑ PRODUCT IDS ΑΠΟ ΤΟ ΚΑΛΑΘΙ
+        const productIds =
+            (items || [])
+                .map((item) => item.product?.productId)
+                .filter((id) => id != null);
+
+        if (productIds.length === 0) {
+            setOrderError("Το καλάθι είναι άδειο.");
+            return;
+        }
+
+        // ΣΤΑΘΕΡΟ shipping method (Standard) & τρόπος πληρωμής από το βήμα payment
+        const dto = {
+            productIds,
+            shippingMethod: "Standard",          // αυτό που είπες
+            paymentMethod: "Credit/Debit Card",  // ίδιο με το κείμενο που δείχνεις στο review
+        };
+
+        console.log("Sending order DTO:", dto);
+
+        const response = await fetch("https://localhost:7056/api/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(dto),
+        });
+
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(errText || "Order failed");
+        }
+
+        // Επιτυχής παραγγελία → άδειασμα καλαθιού και επόμενο βήμα (thank you)
+        dispatch(clearCart());
+        localStorage.removeItem("cartItems");
+        setActiveStep((s) => s + 1);
+    } catch (err) {
+        console.error("Error placing order:", err);
+        setOrderError(err.message || "Failed to place order.");
     }
+}
+
 
     const handleNext = () => setActiveStep((s) => s + 1);
     const handleBack = () => setActiveStep((s) => s - 1);
