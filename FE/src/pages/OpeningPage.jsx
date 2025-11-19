@@ -94,7 +94,10 @@ export default function JoySignInSideTemplate() {
   };
 
   return (
-    <CssVarsProvider theme={customTheme} disableTransitionOnChange>
+      <CssVarsProvider theme={customTheme}
+          defaultMode="dark"
+          modeStorageKey="goodpills-color-scheme"
+          disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={{

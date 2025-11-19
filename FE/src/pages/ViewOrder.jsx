@@ -9,10 +9,8 @@ import {
     Avatar,
     Stack,
 } from "@mui/material";
-import api from "../api/axiosInstance";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-// (προαιρετικά) αν θες αυστηρό έλεγχο ρόλου:
-// import { jwtDecode } from "jwt-decode";
+import api from "../api/axiosInstance";
 
 const ViewOrder = () => {
     const [orders, setOrders] = useState([]);
@@ -24,16 +22,8 @@ const ViewOrder = () => {
         if (!token) {
             setErrorMsg("Please sign in to view your orders.");
             setLoading(false);
-            return; // ⛔ μην καλέσεις API χωρίς token
+            return;
         }
-
-        // (προαιρετικό) έλεγχος ρόλου τοπικά
-        // const cachedRole = (localStorage.getItem("jwt_role") || "").toLowerCase();
-        // if (cachedRole && cachedRole !== "customer") {
-        //   setErrorMsg("Only customers can view orders.");
-        //   setLoading(false);
-        //   return;
-        // }
 
         const fetchOrders = async () => {
             try {
@@ -73,25 +63,25 @@ const ViewOrder = () => {
         );
     }
 
-    // Flatten γραμμών για DataGrid
+    // Flatten orders -> rows για DataGrid
     const rows = (orders || []).flatMap((order) =>
-        (order.items || []).map((i, idx) => ({
-            id: `${order.orderId}-${idx}`,
+        (order.products || []).map((p, idx) => ({
+            id: `${order.orderId}-${p.productId ?? idx}`,
             orderId: order.orderId,
-            customer: order.customerFullname || "-",
+            customer: order.customerId, // ή βάλ’ το "-" αν δεν θες να φαίνεται
             total:
                 typeof order.totalCost === "number"
                     ? `€${order.totalCost.toFixed(2)}`
                     : "-",
-            title: i.title,
-            quantity: i.quantity,
-            image: i.base64Image,
+            title: p.title,
+            quantity: 1, // προς το παρόν 1, αφού κάθε product αφαιρεί 1 από το stock
+            image: p.base64Image,
         }))
     );
 
     const columns = [
         { field: "orderId", headerName: "Order ID", width: 120 },
-        { field: "customer", headerName: "Customer", width: 200 },
+        { field: "customer", headerName: "Customer", width: 150 },
         { field: "total", headerName: "Total Cost", width: 150 },
         {
             field: "title",
