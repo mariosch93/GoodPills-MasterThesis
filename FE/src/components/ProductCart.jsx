@@ -23,13 +23,12 @@ const ProductCart = (props) => {
     const { title, price, base64Image } = props.data;
     const dispatch = useDispatch();
 
-    // Εμφανίζουμε το Add To Cart ΜΟΝΟ όταν είναι logged-in customer
     const showAddToCart = (getRoleFromToken() || "").toLowerCase() === "customer";
 
     const handleAddToCart = () => {
         dispatch(
             addToCart({
-                product: props.data, // περνάμε ολόκληρο το αντικείμενο
+                product: props.data,
                 quantity: 1,
             })
         );
@@ -40,24 +39,26 @@ const ProductCart = (props) => {
             className="p-5 rounded-xl shadow-sm text-black 
                  bg-gray-900/20 backdrop-blur-md 
                  dark:bg-neutral-900/60 border-black
-                 hover:shadow-lg hover:shadow-[rgb(35,175,180)]"
+                 hover:shadow-lg hover:shadow-[rgb(35,175,180)]
+                 flex flex-col"
         >
             <Link to={`/home/${encodeURIComponent(title)}`}>
-                {base64Image ? (
+                {base64Image && (
                     <img
                         src={base64Image}
                         alt={title}
                         className="w-full h-80 object-cover object-top drop-shadow-[0_80px_30px_#0007]"
                     />
-                ) : null}
+                )}
             </Link>
 
             <h3 className="text-2xl py-3 text-center font-medium">{title}</h3>
 
-            <div className="flex justify-between items-center">
+            {/* footer στο κάτω μέρος */}
+            <div className="mt-auto flex justify-between items-center">
                 <p>
-                    €<span className="text-2xl font-medium">
-                        {/* αν θέλεις 2 δεκαδικά: */}
+                    €
+                    <span className="text-2xl font-medium">
                         {Number(price ?? 0).toFixed(2)}
                     </span>
                 </p>
