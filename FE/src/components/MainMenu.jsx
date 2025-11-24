@@ -19,6 +19,40 @@ export default function Mainmenu() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const menuButtonSx = {
+        textTransform: "none",
+        fontWeight: 500,
+        fontSize: "0.95rem",
+        whiteSpace: "nowrap",
+        borderRadius: "999px",
+        px: 1.5,
+        transition:
+            "color 0.2s ease, transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease",
+
+        "& .MuiSvgIcon-root": {
+            transition: "color 0.2s ease",
+        },
+
+        // hover: σκούρο μπλε + zoom + shadow
+        "&:hover": {
+            color: "#1d4ed8", // dark-ish blue
+            transform: "scale(1.2)",
+            backgroundColor: "rgba(37,99,235,0.08)", // πολύ διακριτικό μπλε φόντο
+            boxShadow: "0 0 12px rgba(37,99,235,0.6)", // μπλε glow γύρω από το κουμπί
+        },
+
+        "&:hover .MuiSvgIcon-root": {
+            color: "#1d4ed8",
+        },
+
+        // feedback στο click
+        "&:active": {
+            transform: "scale(0.98)",
+            boxShadow: "0 0 6px rgba(37,99,235,0.5)",
+        },
+    };
+
+
     useEffect(() => {
         const token = localStorage.getItem("jwt_token");
         if (!token) {
@@ -141,12 +175,7 @@ export default function Mainmenu() {
                         component={Link}
                         to={to}
                         startIcon={icon}
-                        sx={{
-                            textTransform: "none",
-                            fontWeight: 500,
-                            fontSize: "0.95rem",
-                            whiteSpace: "nowrap",
-                        }}
+                        sx={menuButtonSx}
                     >
                         {text}
                     </Button>
@@ -156,12 +185,7 @@ export default function Mainmenu() {
                         color="inherit"
                         onClick={onClick}
                         startIcon={icon}
-                        sx={{
-                            textTransform: "none",
-                            fontWeight: 500,
-                            fontSize: "0.95rem",
-                            whiteSpace: "nowrap",
-                        }}
+                            sx={menuButtonSx}
                     >
                         {text}
                     </Button>
