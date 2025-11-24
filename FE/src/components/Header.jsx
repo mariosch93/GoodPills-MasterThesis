@@ -3,29 +3,26 @@ import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleStatusTab } from "../stores/Cart";
 import Mainmenu from "./MainMenu";
-import { jwtDecode } from "jwt-decode"; // για ασφαλή ανάγνωση ρόλου από το token
+import { jwtDecode } from "jwt-decode";
 
 const Header = () => {
     const [totalQuantity, setTotalQuantity] = useState(0);
     const carts = useSelector((store) => store.cart.items);
     const dispatch = useDispatch();
 
-    // Υπολόγισε αν ο χρήστης είναι πελάτης
     const isCustomer = useMemo(() => {
         const token = localStorage.getItem("jwt_token");
         if (!token) return false;
 
-        // Αν έχεις ήδη αποθηκεύσει ρόλο στο login:
         const cachedRole = localStorage.getItem("jwt_role");
         if (cachedRole && cachedRole.toLowerCase() === "customer") return true;
 
-        // Αλλιώς κάνε decode από το token με fallback στα γνωστά claim keys
         try {
             const decoded = jwtDecode(token);
             const role =
-                decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
-                decoded.role ||
-                "";
+                decoded[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                ] || decoded.role || "";
             return String(role).toLowerCase() === "customer";
         } catch {
             return false;
@@ -43,24 +40,39 @@ const Header = () => {
     };
 
     return (
-        <header className="flex justify-between items-center mb-5">
-            <Mainmenu />
+        <header
+            className="
+        fixed top-0 left-0 right-0 z-50
+        bg-transparent
+        backdrop-blur-md
+        border-b border-black/5
+      "
+        >
+            <div className="flex items-center px-6 py-3">
+                {/* Left spacer */}
+                <div className="flex-1" />
 
-            <div className="flex justify-center items-center space-x-4 m-4">
-                {/* Εμφάνισε το cart μόνο για authenticated Customer */}
-                {isCustomer && (
-                    <div className="relative w-10 h-10">
-                        <div
-                            className="w-full h-full bg-gray-100 rounded-full hover:bg-sky-400 flex justify-center items-center"
-                            onClick={handleOpenTabCart}
-                        >
-                            <img src={iconCart} alt="cart icon" className="w-6" />
+                {/* Centered menu */}
+                <div className="flex-1 flex justify-center">
+                    <Mainmenu />
+                </div>
+
+                {/* Cart right */}
+                <div className="flex-1 flex justify-end">
+                    {isCustomer && (
+                        <div className="relative w-10 h-10 cursor-pointer">
+                            <div
+                                className="w-full h-full bg-gray-100/90 rounded-full hover:bg-sky-400 flex justify-center items-center"
+                                onClick={handleOpenTabCart}
+                            >
+                                <img src={iconCart} alt="cart icon" className="w-6" />
+                            </div>
+                            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex justify-center items-center">
+                                {totalQuantity}
+                            </span>
                         </div>
-                        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex justify-center items-center">
-                            {totalQuantity}
-                        </span>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </header>
     );

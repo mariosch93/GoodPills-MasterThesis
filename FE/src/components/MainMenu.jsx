@@ -1,18 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
-import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -23,14 +15,10 @@ import { useDispatch } from "react-redux";
 import { clearCart } from "../stores/Cart";
 
 export default function Mainmenu() {
-    const [open, setOpen] = useState(false);
     const [role, setRole] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const toggleDrawer = (newOpen) => () => setOpen(newOpen);
-
-    // Διάβασε ρόλο από token (αν υπάρχει)
     useEffect(() => {
         const token = localStorage.getItem("jwt_token");
         if (!token) {
@@ -40,7 +28,9 @@ export default function Mainmenu() {
         try {
             const decoded = jwtDecode(token);
             const userRole =
-                decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+                decoded[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                ] ||
                 decoded.role ||
                 null;
             setRole(userRole);
@@ -53,17 +43,14 @@ export default function Mainmenu() {
     const isAdmin = (role || "").toLowerCase() === "admin";
     const isCustomer = (role || "").toLowerCase() === "customer";
 
-    // Logout: καθάρισε καλάθι + auth + αποθηκευμένα στοιχεία κάρτας
     const handleLogout = () => {
         try {
             dispatch(clearCart());
-
             localStorage.removeItem("jwt_token");
             localStorage.removeItem("jwt_userId");
             localStorage.removeItem("jwt_role");
             localStorage.removeItem("cartItems");
 
-            // Καθάρισμα στοιχείων πληρωμής από local & session
             ["cardNumber", "cardHolder", "expirationDate", "cvv"].forEach((k) => {
                 sessionStorage.removeItem(k);
                 localStorage.removeItem(k);
@@ -71,122 +58,115 @@ export default function Mainmenu() {
 
             navigate("/");
         } finally {
-            setOpen(false);
+            /* nothing */
         }
     };
 
-    // Χτίζουμε το μενού με τη σωστή σειρά
     const menuItems = [];
 
-    // Home (πάντα)
     menuItems.push({
         id: "home",
         text: "Home",
-        icon: <HomeIcon />,
+        icon: <HomeIcon fontSize="small" />,
         to: "/home",
     });
 
-    // Sign in μόνο όταν δεν είμαστε logged-in
     if (!isLoggedIn) {
         menuItems.push({
             id: "signin",
             text: "Sign in Page",
-            icon: <LoginIcon />,
+            icon: <LoginIcon fontSize="small" />,
             to: "/",
         });
     }
 
-    // Reset Password μόνο όταν είμαστε logged-in ΚΑΙ δεν είμαστε admin
     if (isLoggedIn && !isAdmin) {
         menuItems.push({
             id: "reset",
             text: "Reset Password",
-            icon: <LockResetIcon />,
+            icon: <LockResetIcon fontSize="small" />,
             to: "/resetpasswordlogged",
         });
     }
 
-    // Admin μόνο
     if (isAdmin) {
         menuItems.push({
             id: "adminPanel",
             text: "Admin Panel",
-            icon: <AdminPanelSettingsIcon />,
+            icon: <AdminPanelSettingsIcon fontSize="small" />,
             to: "/adminpanel",
         });
     }
 
-    // Customer μόνο
     if (isCustomer) {
-        menuItems.push({
-            id: "orders",
-            text: "View Orders",
-            icon: <LocalShippingIcon />,
-            to: "/vieworder",
-        });
-        // Update Profile — ακριβώς πριν το Logout
-        menuItems.push({
-            id: "profile",
-            text: "Update Profile",
-            icon: <ManageAccountsIcon />,
-            to: "/profile",
-        });
+        menuItems.push(
+            {
+                id: "orders",
+                text: "View Orders",
+                icon: <LocalShippingIcon fontSize="small" />,
+                to: "/vieworder",
+            },
+            {
+                id: "profile",
+                text: "Update Profile",
+                icon: <ManageAccountsIcon fontSize="small" />,
+                to: "/profile",
+            }
+        );
     }
 
-    // Logout (τελευταίο) — μόνο όταν είμαστε logged-in
     if (isLoggedIn) {
         menuItems.push({
             id: "logout",
             text: "Logout",
-            icon: <LogoutIcon />,
+            icon: <LogoutIcon fontSize="small" />,
             onClick: handleLogout,
         });
     }
 
-    const DrawerList = (
+    return (
         <Box
-            sx={{ width: 250, bgcolor: "rgba(245, 245, 245, 0.10)", height: "100vh" }}
-            onClick={toggleDrawer(false)}
+            component="nav"
+            sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 3,
+            }}
         >
-            <List>
-                {menuItems.map(({ id, text, icon, to, onClick }) => (
-                    <ListItem key={id} disablePadding>
-                        {to ? (
-                            <ListItemButton component={Link} to={to}>
-                                <ListItemIcon>{icon}</ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        ) : (
-                            <ListItemButton
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onClick?.();
-                                }}
-                            >
-                                <ListItemIcon>{icon}</ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        )}
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
+            {menuItems.map(({ id, text, icon, to, onClick }) =>
+                to ? (
+                    <Button
+                        key={id}
+                        color="inherit"
+                        component={Link}
+                        to={to}
+                        startIcon={icon}
+                        sx={{
+                            textTransform: "none",
+                            fontWeight: 500,
+                            fontSize: "0.95rem",
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        {text}
+                    </Button>
+                ) : (
+                    <Button
+                        key={id}
+                        color="inherit"
+                        onClick={onClick}
+                        startIcon={icon}
+                        sx={{
+                            textTransform: "none",
+                            fontWeight: 500,
+                            fontSize: "0.95rem",
+                            whiteSpace: "nowrap",
+                        }}
+                    >
+                        {text}
+                    </Button>
+                )
+            )}
         </Box>
     );
-
-    return (
-        <div>
-            <Button
-                startIcon={<MenuIcon />}
-                onClick={toggleDrawer(true)}
-                sx={{ fontSize: "1.3rem", color: "black" }}
-            >
-                Menu
-            </Button>
-            <Drawer open={open} onClose={toggleDrawer(false)}>
-                {DrawerList}
-            </Drawer>
-        </div>
-    );
 }
-
