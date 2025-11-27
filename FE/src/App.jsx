@@ -11,34 +11,31 @@ import AdminPanel from "./pages/AdminPanel";
 import Checkout from "./checkout/Checkout";
 import ResetPasswordOpening from "./pages/ResetPasswordOpening";
 import ViewOrder from "./pages/ViewOrder";
-import AdminEditProduct from "./pages/AdminEditProduct"; 
+import AdminEditProduct from "./pages/AdminEditProduct";
 import Profile from "./pages/Profile";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<OpeningPage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/resetpasswordopening"
-            element={<ResetPasswordOpening />}
-          />
-          <Route path="/resetpasswordlogged" element={<ResetPassword />} />
-          <Route path="/home" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path=":slug" element={<Detail />} />
-          </Route>
-          <Route path="/adminpanel" element={<AdminPanel />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/vieworder" element={<ViewOrder />} />
-          <Route path="/admin/products/:id/edit" element={<AdminEditProduct />} /> {/* мео */}
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/" element={<OpeningPage />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/resetpasswordopening" element={<ResetPasswordOpening />} />
+                    <Route path="/resetpasswordlogged" element={<ResetPassword />} />
+                    <Route path="/home" element={<Layout />}>
+                        <Route index element={<Home />} />
+                        <Route path=":slug" element={<Detail />} />
+                    </Route>
+                    <Route path="/adminpanel" element={<AdminPanel />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/vieworder" element={<ViewOrder />} />
+                    <Route path="/admin/products/:id/edit" element={<AdminEditProduct />} />
+                    <Route path="/profile" element={<Profile />} />
+                </Routes>
+            </AuthProvider>
+        </BrowserRouter>
+    );
 }
 
 export default App;

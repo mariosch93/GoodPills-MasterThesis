@@ -65,11 +65,11 @@ export default function SimpleBottomNavigation() {
                                         mb: 2,
                                     }}
                                 >
-                                    Connect with Me
+                                   Lets Connect
                                 </Typography>
                                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                                     <Typography variant="subtitle1" sx={{ whiteSpace: "nowrap" }}>
-                                        Μάριος Χαρίδης {"\u00A0"}
+                                        {"\u00A0"}
                                         {"\u00A0"}→
                                     </Typography>
                                     <Box sx={{ display: "flex", gap: 0.5 }}>

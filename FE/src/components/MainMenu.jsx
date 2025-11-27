@@ -37,8 +37,8 @@ export default function Mainmenu() {
         "&:hover": {
             color: "#1d4ed8", // dark-ish blue
             transform: "scale(1.2)",
-            backgroundColor: "rgba(37,99,235,0.08)", // πολύ διακριτικό μπλε φόντο
-            boxShadow: "0 0 12px rgba(37,99,235,0.6)", // μπλε glow γύρω από το κουμπί
+            backgroundColor: "rgba(37,99,235,0.08)", 
+            boxShadow: "0 0 12px rgba(37,99,235,0.6)",
         },
 
         "&:hover .MuiSvgIcon-root": {

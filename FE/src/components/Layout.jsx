@@ -6,6 +6,8 @@ import Footer from "./Footer";
 import homeBg from "../assets/images/homeBg.png";
 import { useMemo } from "react";
 import { jwtDecode } from "jwt-decode";
+import HeroLeft01 from "./HeroLeft01";
+import HeroLeft02 from "./HeroLeft02";
 
 const Layout = () => {
     const statusTabCart = useSelector((store) => store.cart.statusTab);
@@ -41,6 +43,10 @@ const Layout = () => {
                     className={`overflow-auto max-h-full p-5 transform transition-transform duration-500 ${isCustomer && statusTabCart ? "-translate-x-56" : ""
                         }`}
                 >
+                    <HeroLeft01 />
+                    <br />
+                    <HeroLeft02 />
+                    <br />
                     <Outlet />
                 </div>
             </main>
