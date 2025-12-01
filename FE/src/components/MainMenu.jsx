@@ -13,22 +13,23 @@ import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../stores/Cart";
-import Pagination from "@mui/material/Pagination";
 
 export default function Mainmenu() {
   const [role, setRole] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handlePageChange = window.scrollTo({ top: 0, behavior: "smooth" });
+  const handlePageChange = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const menuButtonSx = {
     textTransform: "none",
     fontWeight: 500,
     fontSize: {
-      xs: "0.75rem",
-      sm: "0.85rem",
-      md: "0.95rem",
+         xs: "0.90rem", 
+    sm: "1rem", 
+    md: "1.15rem",   
     },
     whiteSpace: "nowrap",
     borderRadius: "999px",
@@ -45,26 +46,26 @@ export default function Mainmenu() {
       fontSize: "1rem",
     },
 
-    "&:hover": {
-      color: "#1d4ed8",
-      transform: {
-        xs: "scale(1.03)",
-        md: "scale(1.1)",
-      },
-      backgroundColor: "rgba(37,99,235,0.08)",
-      boxShadow: {
-        xs: "0 0 4px rgba(37,99,235,0.4)",
-        md: "0 0 10px rgba(37,99,235,0.6)",
-      },
+     "&:hover": {
+    color: "#0f172a",
+    transform: {
+      xs: "scale(1.03)",
+      md: "scale(1.06)",
     },
+    backgroundColor: "rgba(255,255,255,0.22)",
+    boxShadow: {
+      xs: "0 0 6px rgba(15,23,42,0.35)",
+      md: "0 0 12px rgba(15,23,42,0.45)",
+    },
+  },
 
     "&:hover .MuiSvgIcon-root": {
-      color: "#1d4ed8",
+      color: "#005fa8",
     },
 
     "&:active": {
       transform: "scale(0.97)",
-      boxShadow: "0 0 6px rgba(37,99,235,0.5)",
+      boxShadow: "0 0 6px rgba(0,95,168,0.5)",
     },
   };
 
@@ -116,7 +117,7 @@ export default function Mainmenu() {
     text: "Home",
     icon: <HomeIcon fontSize="small" />,
     to: "/home",
-    onClick:handlePageChange
+    onClick: handlePageChange,
   });
 
   if (!isLoggedIn) {
@@ -197,6 +198,7 @@ export default function Mainmenu() {
             component={Link}
             to={to}
             startIcon={icon}
+            onClick={onClick}
             sx={menuButtonSx}
           >
             {text}
@@ -205,8 +207,8 @@ export default function Mainmenu() {
           <Button
             key={id}
             color="inherit"
-            onClick={onClick}
             startIcon={icon}
+            onClick={onClick}
             sx={menuButtonSx}
           >
             {text}

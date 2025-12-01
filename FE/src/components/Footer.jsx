@@ -14,7 +14,7 @@ export default function SimpleBottomNavigation() {
         <Box
             component="footer"
             sx={{
-                backgroundColor: "rgba(1, 100, 80, 0.65)",
+                backgroundColor: "rgba(0,115,187,0.70)",
                 color: "#fff",
                 py: 1,
                 mt: 2,

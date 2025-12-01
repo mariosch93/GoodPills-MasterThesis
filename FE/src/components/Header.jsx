@@ -44,6 +44,7 @@ const Header = () => {
       className="
         fixed top-0 left-0 right-0 z-50
         bg-transparent
+        bg-[rgba(0,115,187,0.70)]
         backdrop-blur-sm
         border-b border-black/5
       "
