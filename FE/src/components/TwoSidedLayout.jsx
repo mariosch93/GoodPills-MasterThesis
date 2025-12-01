@@ -3,6 +3,8 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Container from "@mui/joy/Container";
 import { typographyClasses } from "@mui/joy/Typography";
+import video from "../assets/videos/pharmacy_video.mp4";
+
 
 export default function TwoSidedLayout({ children, reversed }) {
     return (
@@ -65,10 +67,22 @@ export default function TwoSidedLayout({ children, reversed }) {
                     flexBasis: "50%",
                 })}
             >
+            {/* 
                 <img
                     src="https://images.unsplash.com/photo-1483791424735-e9ad0209eea2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
                     alt=""
                 />
+            */}
+           <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+              <source src={video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+
             </AspectRatio>
         </Container>
     );
