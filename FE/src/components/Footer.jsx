@@ -81,10 +81,10 @@ export default function SimpleBottomNavigation() {
                                             sx={{
                                                 color: "white",
                                                 p: 0.5,
-                                                "&:hover": { color: "#1877F2" },
+                                                "&:hover": { color: "#0A66C2" },
                                             }}
                                         >
-                                            <Facebook />
+                                            <Facebook fontSize="large"/>
                                         </IconButton>
                                         <IconButton
                                             size="small"
@@ -102,7 +102,7 @@ export default function SimpleBottomNavigation() {
                                                 },
                                             }}
                                         >
-                                            <Instagram />
+                                            <Instagram fontSize="large"/>
                                         </IconButton>
                                         <IconButton
                                             size="small"
@@ -115,7 +115,7 @@ export default function SimpleBottomNavigation() {
                                                 "&:hover": { color: "#0A66C2" },
                                             }}
                                         >
-                                            <LinkedIn />
+                                            <LinkedIn fontSize="large"/>
                                         </IconButton>
                                         <IconButton
                                             size="small"
@@ -128,66 +128,12 @@ export default function SimpleBottomNavigation() {
                                                 "&:hover": { color: "#181717" },
                                             }}
                                         >
-                                            <GitHubIcon />
+                                            <GitHubIcon fontSize="large"/>
                                         </IconButton>
                                     </Box>
                                 </Box>
                             </Grid>
                         </Grid>
-
-
-                        {/* John row */}
-                        {/*<Grid container spacing={2} alignItems="center" mb={1}>*/}
-                        {/*    <Grid item xs={12} md={4}>*/}
-                        {/*        <Box sx={{ display: "flex", alignItems: "center" }}>*/}
-                        {/*            <Typography variant="subtitle1" sx={{ whiteSpace: "nowrap" }}>*/}
-                        {/*                Ιωάννης Θωμαΐδης →*/}
-                        {/*            </Typography>*/}
-                        {/*            <Box sx={{ display: "flex", gap: 0.5 }}>*/}
-                        {/*                <IconButton*/}
-                        {/*                    size="small"*/}
-                        {/*                    component={Link}*/}
-                        {/*                    href="https://www.facebook.com/giannis.thomaidis.9"*/}
-                        {/*                    target="_blank"*/}
-                        {/*                    sx={{*/}
-                        {/*                        color: "white",*/}
-                        {/*                        p: 0.5,*/}
-                        {/*                        "&:hover": { color: "#1877F2" },*/}
-                        {/*                    }}*/}
-                        {/*                >*/}
-                        {/*                    <Facebook />*/}
-                        {/*                </IconButton>*/}
-
-                        {/*                <IconButton*/}
-                        {/*                    size="small"*/}
-                        {/*                    component={Link}*/}
-                        {/*                    href="https://www.linkedin.com/in/john-thomaidis-523b88174/"*/}
-                        {/*                    target="_blank"*/}
-                        {/*                    sx={{*/}
-                        {/*                        color: "white",*/}
-                        {/*                        p: 0.5,*/}
-                        {/*                        "&:hover": { color: "#0A66C2" },*/}
-                        {/*                    }}*/}
-                        {/*                >*/}
-                        {/*                    <LinkedIn />*/}
-                        {/*                </IconButton>*/}
-                        {/*                <IconButton*/}
-                        {/*                    size="small"*/}
-                        {/*                    component={Link}*/}
-                        {/*                    href="https://github.com/john26686"*/}
-                        {/*                    target="_blank"*/}
-                        {/*                    sx={{*/}
-                        {/*                        color: "white",*/}
-                        {/*                        p: 0.5,*/}
-                        {/*                        "&:hover": { color: "#181717" },*/}
-                        {/*                    }}*/}
-                        {/*                >*/}
-                        {/*                    <GitHubIcon />*/}
-                        {/*                </IconButton>*/}
-                        {/*            </Box>*/}
-                        {/*        </Box>*/}
-                        {/*    </Grid>*/}
-                        {/*</Grid>*/}
                     </Grid>
                 </Grid>
 
