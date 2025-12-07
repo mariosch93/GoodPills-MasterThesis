@@ -22,7 +22,9 @@ const Header = () => {
       const role =
         decoded[
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-        ] || decoded.role || "";
+        ] ||
+        decoded.role ||
+        "";
       return String(role).toLowerCase() === "customer";
     } catch {
       return false;
@@ -44,9 +46,9 @@ const Header = () => {
       className="
         fixed top-0 left-0 right-0 z-50
         bg-transparent
-        bg-[rgba(0,115,187,0.70)]
         backdrop-blur-sm
         border-b border-black/5
+        bg-[linear-gradient(90deg,#071428_0%,#1b2b3b_20%,#29121a_100%)]
       "
     >
       <div
@@ -54,12 +56,9 @@ const Header = () => {
           flex flex-wrap items-center px-6 py-3 gap-2
         "
       >
-        {/* Αριστερή περιοχή (π.χ. logo στο μέλλον) */}
-        <div className="order-1 flex items-center md:w-24">
-          {/* αφήνουμε κενό προς το παρόν */}
-        </div>
+        <div className="order-1 flex items-center md:w-24"></div>
 
-        {/* Κεντρικό menu */}
+        {/* menu */}
         <div
           className="
             order-3 w-full flex justify-center
@@ -69,7 +68,7 @@ const Header = () => {
           <Mainmenu />
         </div>
 
-        {/* Cart δεξιά */}
+        {/* Cart */}
         <div
           className="
             order-2 w-full flex justify-end

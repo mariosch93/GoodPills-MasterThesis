@@ -10,7 +10,6 @@ import MedicationIcon from "@mui/icons-material/Medication";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import HeroLeft01 from "../components/HeroLeft01.jsx";
 
-
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -24,13 +23,11 @@ const Home = () => {
     });
   }, []);
 
-  // ðüóåò óåëßäåò óõíïëéêÜ
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   const totalPages =
-    products.length > 0
-      ? Math.ceil(products.length / ITEMS_PER_PAGE)
-      : 1;
+    products.length > 0 ? Math.ceil(products.length / ITEMS_PER_PAGE) : 1;
 
-  // ðñïúüíôá ôñÝ÷ïõóáò óåëßäáò
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const pageProducts = products.slice(startIndex, endIndex);
@@ -46,20 +43,22 @@ const Home = () => {
       <Container>
         <Typography
           variant="h4"
-          textColor="text.secondary"
+          color="text.primary"
           sx={{
             textAlign: "center",
-            fontSize: "l",
+            fontSize: "md",
             lineHeight: "lg",
             fontWeight: "bold",
             mt: 4,
           }}
         >
           Enjoy secure payments{" "}
-          <CreditCardIcon sx={{ fontSize: "inherit" }} />, fast delivery{" "}
-          <LocalShippingIcon sx={{ fontSize: "inherit" }} />, and a wide range
-          of in-stock products{" "}
-          <MedicationIcon sx={{ fontSize: "inherit" }} /> only at GoodPills.
+          <CreditCardIcon sx={{ fontSize: "inherit", color: "#6c7802" }} />,
+          fast delivery{" "}
+          <LocalShippingIcon sx={{ fontSize: "inherit", color: "#0A66C2" }} />,
+          and a wide range of in-stock products{" "}
+          <MedicationIcon sx={{ fontSize: "inherit", color: "red" }} /> only at
+          GoodPills.
         </Typography>
 
         <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-5 mt-4">

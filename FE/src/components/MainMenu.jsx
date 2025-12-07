@@ -24,12 +24,13 @@ export default function Mainmenu() {
   };
 
   const menuButtonSx = {
+    color: "#cfd3d7",
     textTransform: "none",
     fontWeight: 500,
     fontSize: {
-         xs: "0.90rem", 
-    sm: "1rem", 
-    md: "1.15rem",   
+      xs: "0.90rem",
+      sm: "1rem",
+      md: "1.15rem",
     },
     whiteSpace: "nowrap",
     borderRadius: "999px",
@@ -43,24 +44,24 @@ export default function Mainmenu() {
 
     "& .MuiSvgIcon-root": {
       transition: "color 0.2s ease",
-      fontSize: "1rem",
+      fontSize: "1.2rem",
     },
 
-     "&:hover": {
-    color: "#0f172a",
-    transform: {
-      xs: "scale(1.03)",
-      md: "scale(1.06)",
+    "&:hover": {
+      color: "#fefefe",
+      transform: {
+        xs: "scale(1.05)",
+        md: "scale(1.1)",
+      },
+      backgroundColor: "rgba(255,255,255,0.22)",
+      boxShadow: {
+        xs: "0 0 6px rgba(15,23,42,0.35)",
+        md: "0 0 12px rgba(15,23,42,0.45)",
+      },
     },
-    backgroundColor: "rgba(255,255,255,0.22)",
-    boxShadow: {
-      xs: "0 0 6px rgba(15,23,42,0.35)",
-      md: "0 0 12px rgba(15,23,42,0.45)",
-    },
-  },
 
     "&:hover .MuiSvgIcon-root": {
-      color: "#005fa8",
+      color: "#0A66C2",
     },
 
     "&:active": {
@@ -78,7 +79,9 @@ export default function Mainmenu() {
     try {
       const decoded = jwtDecode(token);
       const userRole =
-        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+        decoded[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ] ||
         decoded.role ||
         null;
       setRole(userRole);
