@@ -47,5 +47,21 @@ namespace GoodPills.Models.DTOs
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
+
+    // Πρόσθεσε αυτό στο CustomerDtos.cs
+    public class CustomerProfileUpdateDto
+    {
+        [Required]
+        public string Fullname { get; set; } = string.Empty;
+
+        [Range(0, 120)]
+        public int Age { get; set; }
+
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        public string City { get; set; } = string.Empty;
+
+        public string Address { get; set; } = string.Empty;
+    }
 }
 

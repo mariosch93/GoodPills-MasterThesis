@@ -1,7 +1,5 @@
-import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
-import ArrowForward from "@mui/icons-material/ArrowForward";
 import TwoSidedLayout from "./TwoSidedLayout.jsx";
 
 export default function HeroLeft01() {

@@ -101,6 +101,34 @@ namespace GoodPills.Controllers
             return Ok(list.Select(ToReadDto).ToList());
         }
 
+        [Authorize]
+        [HttpPut("me")]
+        public async Task<IActionResult> UpdateProfile([FromBody] CustomerProfileUpdateDto dto)
+        {
+            // 1. Βρες το ID του χρήστη από το Token
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value; // ή "sub" ή "id" ανάλογα το setup
+            if (string.IsNullOrEmpty(userIdClaim)) return Unauthorized();
+
+            int customerId = int.Parse(userIdClaim);
+
+            // 2. Φέρε τον χρήστη από τη βάση
+            var customer = await _context.Customers.FindAsync(customerId);
+            if (customer == null) return NotFound("User not found.");
+
+            // 3. Ενημέρωσε τα πεδία (Mapping)
+            customer.Fullname = dto.Fullname;
+            customer.Age = dto.Age;
+            customer.PhoneNumber = dto.PhoneNumber;
+            customer.City = dto.City;
+            customer.Address = dto.Address;
+
+            // 4. Αποθήκευση
+            _context.Customers.Update(customer); // Προαιρετικό στο EF Core αν το αντικείμενο είναι tracked, αλλά καλό για σαφήνεια
+            await _context.SaveChangesAsync();
+
+            return Ok("Profile updated successfully.");
+        }
+
         private static CustomerReadDto ToReadDto(Customer c) => new()
         {
             CustomerId = c.CustomerId,
