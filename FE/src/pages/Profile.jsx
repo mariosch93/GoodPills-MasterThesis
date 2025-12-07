@@ -22,39 +22,28 @@ import CakeIcon from "@mui/icons-material/Cake";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import HomeIcon from "@mui/icons-material/Home";
 import SaveIcon from "@mui/icons-material/Save";
-
 import api from "../api/axiosInstance";
 
-// --- Custom Styles για Dark Mode TextFields ---
-// Επειδή δεν έχουμε global theme, ορίζουμε χειροκίνητα τα χρώματα
-// για να φαίνονται σωστά σε σκούρο φόντο.
 const darkTextFieldStyle = {
-  // Χρώμα ετικέτας (Label) όταν δεν είναι επιλεγμένο
   "& .MuiInputLabel-root": {
     color: "rgba(255, 255, 255, 0.7)",
   },
-  // Χρώμα κειμένου μέσα στο input
   "& .MuiInputBase-input": {
     color: "#ffffff",
   },
-  // Ρυθμίσεις περιγράμματος (Border)
   "& .MuiOutlinedInput-root": {
-    // Βασικό περίγραμμα (αχνό λευκό)
     "& fieldset": {
       borderColor: "rgba(255, 255, 255, 0.3)",
     },
-    // Περίγραμμα όταν περνάει το ποντίκι (hover)
     "&:hover fieldset": {
       borderColor: "rgba(255, 255, 255, 0.5)",
     },
-    // Περίγραμμα και ετικέτα όταν είναι επιλεγμένο (focus) - κρατάμε το primary χρώμα
     "&.Mui-focused fieldset": {
       borderColor: "primary.main",
     },
   },
 };
 
-// Χρώμα για τα εικονίδια μέσα στα inputs
 const inputIconColor = "rgba(255, 255, 255, 0.7)";
 
 export default function Profile() {
@@ -159,7 +148,6 @@ export default function Profile() {
 
   if (!hasToken) {
     return (
-      // Εδώ χρησιμοποιούμε ένα απλό σκούρο background αν δεν έχει συνδεθεί
       <Box sx={{ minHeight: "100vh", bgcolor: "#121212", pt: 8 }}>
         <Container maxWidth="sm">
           <Alert severity="warning" variant="filled">
@@ -177,7 +165,7 @@ export default function Profile() {
         justifyContent="center"
         alignItems="center"
         minHeight="100vh"
-        sx={{ bgcolor: "#121212" }} // Dark background στο loading
+        sx={{ bgcolor: "#121212" }}
       >
         <CircularProgress size={60} />
       </Box>
@@ -192,13 +180,10 @@ export default function Profile() {
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-        // --- BACKGROUND IMAGE SETUP ---
-        // Υποθέτουμε ότι η εικόνα είναι στο public/assets/profilePageBg.jpg
         backgroundImage: `url(${ProfileBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        // Προσθέτουμε ένα σκούρο overlay για να διαβάζεται το περιεχόμενο
         bgcolor: "rgba(0,0,0,0.75)",
         backgroundBlendMode: "overlay",
       }}
