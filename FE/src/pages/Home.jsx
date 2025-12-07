@@ -23,11 +23,9 @@ const Home = () => {
     });
   }, []);
 
-  // ����� ������� ��������
   const totalPages =
     products.length > 0 ? Math.ceil(products.length / ITEMS_PER_PAGE) : 1;
 
-  // �������� ��������� �������
   const startIndex = (page - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const pageProducts = products.slice(startIndex, endIndex);
