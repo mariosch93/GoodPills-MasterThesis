@@ -3,12 +3,11 @@ import { Container, Box } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import { useState, useEffect } from "react";
 import api from "../api/axiosInstance.js";
-import Marquee from "../components/Marquee.jsx";
 import Typography from "@mui/material/Typography";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import MedicationIcon from "@mui/icons-material/Medication";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import HeroLeft01 from "../components/HeroLeft01.jsx";
+import HeroLeft from "../components/HeroLeft.jsx";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -36,7 +35,7 @@ const Home = () => {
 
   return (
     <>
-      <HeroLeft01 />
+      <HeroLeft />
 
       <Container>
         <Typography

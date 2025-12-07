@@ -1,4 +1,3 @@
-// src/pages/Profile.jsx
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -23,6 +22,8 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import HomeIcon from "@mui/icons-material/Home";
 import SaveIcon from "@mui/icons-material/Save";
 import api from "../api/axiosInstance";
+import Link from "@mui/joy/Link";
+import { useNavigate } from "react-router-dom";
 
 const darkTextFieldStyle = {
   "& .MuiInputLabel-root": {
@@ -47,6 +48,7 @@ const darkTextFieldStyle = {
 const inputIconColor = "rgba(255, 255, 255, 0.7)";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("jwt_token");
   const hasToken = Boolean(token);
 
@@ -195,11 +197,10 @@ export default function Profile() {
           width: "100%",
           maxWidth: 700,
           borderRadius: 4,
-          // --- DARK MODE PAPER STYLES ---
-          bgcolor: "#1e1e1e", // Σκούρο γκρι background για την κάρτα
-          color: "#ffffff", // Λευκό κείμενο
-          backdropFilter: "blur(5px)", // Προαιρετικό: ελαφρύ θόλωμα πίσω από την κάρτα
-          border: "1px solid rgba(255,255,255,0.1)", // Αχνό περίγραμμα
+          bgcolor: "#1e1e1e",
+          color: "#ffffff",
+          backdropFilter: "blur(5px)",
+          border: "1px solid rgba(255,255,255,0.1)",
         }}
       >
         {/* Header Section */}
@@ -210,7 +211,7 @@ export default function Profile() {
               height: 90,
               bgcolor: "primary.main",
               mb: 2,
-              boxShadow: "0 4px 20px rgba(0,0,0,0.5)", // Πιο έντονη σκιά
+              boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
             }}
           >
             <PersonIcon sx={{ fontSize: 50 }} />
@@ -342,7 +343,6 @@ export default function Profile() {
             </Grid>
           </Grid>
 
-          {/* Αχνό λευκό divider */}
           <Divider sx={{ my: 4, borderColor: "rgba(255, 255, 255, 0.15)" }} />
 
           <Box display="flex" justifyContent="flex-end">
@@ -363,6 +363,18 @@ export default function Profile() {
             >
               {saving ? "Saving Changes..." : "Save Changes"}
             </Button>
+          </Box>
+          <Box sx={{ mt: 4, textAlign: "center" }}>
+            <Typography level="body-lg">
+              No need to change your profile?{" "}
+              <Link
+                onClick={() => navigate("/home")}
+                level="title-lg"
+                sx={{ cursor: "pointer" }}
+              >
+                Go back
+              </Link>
+            </Typography>
           </Box>
         </Box>
       </Paper>

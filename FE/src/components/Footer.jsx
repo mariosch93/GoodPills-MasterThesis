@@ -26,7 +26,7 @@ export default function SimpleBottomNavigation() {
         overflow: "hidden",
         boxShadow: "0 12px 40px rgba(0,0,0,0.45)",
         background:
-          "linear-gradient(90deg,#071428 0%, #1b2b3b 60%, #29121a 100%)",
+          "linear-gradient(202deg,rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%)",
         color: "white",
         p: { xs: 2, md: 2 },
 

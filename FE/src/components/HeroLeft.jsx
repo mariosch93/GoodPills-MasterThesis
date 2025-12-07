@@ -2,7 +2,7 @@ import Link from "@mui/joy/Link";
 import Typography from "@mui/joy/Typography";
 import TwoSidedLayout from "./TwoSidedLayout.jsx";
 
-export default function HeroLeft01() {
+export default function HeroLeft() {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("jwt_token") : null;
 

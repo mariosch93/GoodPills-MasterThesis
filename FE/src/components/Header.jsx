@@ -48,7 +48,7 @@ const Header = () => {
         bg-transparent
         backdrop-blur-sm
         border-b border-black/5
-        bg-[linear-gradient(90deg,#071428_0%,#1b2b3b_20%,#29121a_100%)]
+        bg-[linear-gradient(202deg,rgba(2,0,36,1)_0%,rgba(9,9,121,1)_35%,rgba(0,212,255,1)_100%)]
       "
     >
       <div
