@@ -61,7 +61,7 @@ export default function Mainmenu() {
     },
 
     "&:hover .MuiSvgIcon-root": {
-      color: "#f50e5b",
+      color: "#17d5dc",
     },
 
     "&:active": {
