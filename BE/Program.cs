@@ -54,9 +54,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://localhost:5174", "http://localhost:5177")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+            "http://localhost:5173",
+            "http://localhost:5174",
+            "https://good-pills-master-thesis.vercel.app"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 
     options.AddPolicy("AllowAll", policy =>
