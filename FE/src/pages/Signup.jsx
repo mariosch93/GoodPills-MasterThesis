@@ -13,6 +13,7 @@ import Link from "@mui/joy/Link";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../api/axiosInstance.js";
 
 import ColorSchemeToggle from "../components/ColorSchemeToggle.jsx";
 import medicineLogo from "../assets/images/medicineLogo.png";
@@ -48,10 +49,12 @@ export default function JoySignUp() {
     setSuccessMessage(null);
 
     try {
-      await axios.post(
-        "https://localhost:7056/api/Customer/register",
-        formData
-      );
+      // await axios.post(
+      //   "https://localhost:7056/api/Customer/register",
+      //   formData
+      // );
+
+      await api.post("Customer/register", formData);
 
       setSuccessMessage("Sign Up successful!");
       setTimeout(() => navigate("/"), 1500);

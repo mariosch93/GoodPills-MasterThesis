@@ -16,7 +16,7 @@ import medicineDark from "../assets/images/medicine_dark.jpg";
 import ColorSchemeToggle from "../components/ColorSchemeToggle.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import api from "../api/axiosInstance.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import medicineLogo from "../assets/images/medicineLogo.png";
 
@@ -55,13 +55,18 @@ export default function JoySignInSideTemplate() {
 
     try {
       // Make the POST request to the C# backend using Axios
-      const response = await axios.post(
-        "https://localhost:7056/api/Auth/login",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+      // const response = await axios.post(
+      //   "https://localhost:7056/api/Auth/login",
+      //   {
+      //     email: formData.email,
+      //     password: formData.password,
+      //   }
+      // );
+
+      const response = await api.post("Auth/login", {
+        email: formData.email,
+        password: formData.password,
+      });
 
       const token = response.data.token;
       console.log("Login successful. Token:", token);
@@ -94,10 +99,12 @@ export default function JoySignInSideTemplate() {
   };
 
   return (
-      <CssVarsProvider theme={customTheme}
-          defaultMode="dark"
-          modeStorageKey="goodpills-color-scheme"
-          disableTransitionOnChange>
+    <CssVarsProvider
+      theme={customTheme}
+      defaultMode="dark"
+      modeStorageKey="goodpills-color-scheme"
+      disableTransitionOnChange
+    >
       <CssBaseline />
       <GlobalStyles
         styles={{
