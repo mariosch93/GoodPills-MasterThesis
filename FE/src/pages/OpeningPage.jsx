@@ -62,7 +62,6 @@ export default function JoySignInSideTemplate () {
       //     password: formData.password,
       //   }
       // );
-      // dummy comment to test git commit 3
       const response = await api.post('Auth/login', {
         email: formData.email,
         password: formData.password
