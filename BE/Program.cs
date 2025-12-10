@@ -6,7 +6,19 @@ using System.Text.Json;
 using Microsoft.OpenApi.Models;
 using GoodPills.Data;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    // This prevents the app from trying to watch files, fixing the inotify limit error
+    ContentRootPath = AppContext.BaseDirectory
+});
+
+// Explicitly disable reload for JSON files to save file watchers
+builder.Configuration.Sources.Clear();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables();
 
 // Db
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -122,7 +134,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
-// ΔΕΝ χρειάζεται πλέον UseStaticFiles/Uploads
 app.UseAuthentication();
 app.UseAuthorization();
 
