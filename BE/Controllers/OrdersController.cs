@@ -52,6 +52,7 @@ namespace GoodPills.Controllers
             var idStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!int.TryParse(idStr, out var customerId)) return Forbid();
 
+            // 1. Βρίσκουμε τα μοναδικά προϊόντα από τη βάση
             var products = await _context.Products
                 .Where(p => dto.ProductIds.Contains(p.ProductId))
                 .ToListAsync();
@@ -59,17 +60,30 @@ namespace GoodPills.Controllers
             if (products.Count != dto.ProductIds.Distinct().Count())
                 return BadRequest("One or more products not found");
 
-            foreach (var p in products)
-            {
-                if (p.Quantity <= 0)
-                    return BadRequest($"Product {p.Title} out of stock");
-            }
+            // 2. Υπολογίζουμε τις ποσότητες που ζητήθηκαν για κάθε ID
+            // Ομαδοποιούμε τα IDs που ήρθαν από το Frontend
+            var quantities = dto.ProductIds
+                .GroupBy(id => id)
+                .ToDictionary(g => g.Key, g => g.Count());
 
             float total = 0;
+
+            // 3. Ενημερώνουμε τιμές και στοκ
             foreach (var p in products)
             {
-                total += p.Price;
-                p.Quantity -= 1;
+                // Βρίσκουμε πόσα ζητήθηκαν για αυτό το προϊόν
+                if (quantities.TryGetValue(p.ProductId, out int requestedQty))
+                {
+                    // Έλεγχος αποθέματος
+                    if (p.Quantity < requestedQty)
+                        return BadRequest($"Product '{p.Title}' out of stock. Available: {p.Quantity}, Requested: {requestedQty}");
+
+                    // Προσθήκη στο σύνολο (Τιμή * Ποσότητα)
+                    total += p.Price * requestedQty;
+
+                    // Μείωση αποθέματος
+                    p.Quantity -= requestedQty;
+                }
             }
 
             var order = new Order
@@ -78,12 +92,14 @@ namespace GoodPills.Controllers
                 ShippingMethod = dto.ShippingMethod,
                 PaymentMethod = dto.PaymentMethod,
                 TotalCost = total,
+                // Εδώ καταγράφουμε κάθε τεμάχιο ξεχωριστά στον πίνακα OrderProducts
                 OrderProducts = dto.ProductIds.Select(id => new OrderProduct { ProductId = id }).ToList()
             };
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
+            // Φόρτωση για επιστροφή DTO
             order = await _context.Orders
                 .Include(o => o.OrderProducts).ThenInclude(op => op.Product)
                 .FirstAsync(o => o.OrderId == order.OrderId);

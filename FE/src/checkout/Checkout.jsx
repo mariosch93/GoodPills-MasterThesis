@@ -95,10 +95,12 @@ export default function Checkout(props) {
                 return;
             }
 
-            // 1. Ετοιμασία δεδομένων (Product IDs)
-            const productIds = (items || [])
-                .map((item) => item.product?.productId)
-                .filter((id) => id != null);
+            const productIds = (items || []).flatMap((item) => {
+                const pid = item.product?.productId;
+                const qty = item.quantity || 1;
+                // Επιστρέφει έναν πίνακα [pid, pid, pid...] ανάλογα με το qty
+                return pid != null ? Array(qty).fill(pid) : [];
+            });
 
             if (productIds.length === 0) {
                 setOrderError("Το καλάθι είναι άδειο.");
