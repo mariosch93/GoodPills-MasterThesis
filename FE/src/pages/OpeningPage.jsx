@@ -62,7 +62,7 @@ export default function JoySignInSideTemplate () {
       //     password: formData.password,
       //   }
         // );
-      // dummy2
+      // dummy commit v2
       const response = await api.post('Auth/login', {
         email: formData.email,
         password: formData.password
