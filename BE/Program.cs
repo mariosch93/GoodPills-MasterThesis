@@ -120,7 +120,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowReactApp");
+app.UseCors("AllowAll");
 
 // ΔΕΝ χρειάζεται πλέον UseStaticFiles/Uploads
 app.UseAuthentication();
