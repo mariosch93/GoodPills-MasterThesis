@@ -23,6 +23,7 @@ import medicineLogo from "../assets/images/medicineLogo.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../stores/Cart";
+import api from '../api/axiosInstance.js'
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -82,117 +83,60 @@ export default function Checkout(props) {
 
         return true;
     };
-    /*
+
     async function handlePlaceOrder(items) {
         try {
             setOrderError("");
 
+            // Έλεγχος αν υπάρχει token (για UX, ώστε να μην κάνουμε request τσάμπα)
             const token = localStorage.getItem("jwt_token");
             if (!token) {
                 setOrderError("You must be logged in to place an order.");
                 return;
             }
 
-            const decoded = jwtDecode(token);
-            const customerId =
-                decoded[
-                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                ] ||
-                decoded["sub"] ||
-                decoded["customerId"];
-
-            if (!customerId) {
-                setOrderError("Customer ID not found in token!");
-                return;
-            }
-
-            const dto = {
-                customerId: parseInt(customerId, 10),
-                items: items.map((item) => ({
-                    productId: item.product.productId,
-                    quantity: item.quantity,
-                })),
-            };
-
-            const response = await fetch("https://localhost:7056/api/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(dto),
-            });
-
-            if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(errText || "Order failed");
-            }
-
-            // Επιτυχής παραγγελία: ΑΔΕΙΑΖΟΥΜΕ ΤΟ ΚΑΛΑΘΙ (Redux + localStorage)
-            dispatch(clearCart());
-            localStorage.removeItem("cartItems"); 
-
-            // Προχώρα στην thank-you σελίδα
-            setActiveStep((s) => s + 1);
-        } catch (err) {
-            console.error("Error placing order:", err);
-            setOrderError(err.message || "Failed to place order.");
-        }
-    } */
-
-    async function handlePlaceOrder(items) {
-    try {
-        setOrderError("");
-
-        const token = localStorage.getItem("jwt_token");
-        if (!token) {
-            setOrderError("You must be logged in to place an order.");
-            return;
-        }
-
-        // ΠΑΙΡΝΟΥΜΕ ΤΑ PRODUCT IDS ΑΠΟ ΤΟ ΚΑΛΑΘΙ
-        const productIds =
-            (items || [])
+            // 1. Ετοιμασία δεδομένων (Product IDs)
+            const productIds = (items || [])
                 .map((item) => item.product?.productId)
                 .filter((id) => id != null);
 
-        if (productIds.length === 0) {
-            setOrderError("Το καλάθι είναι άδειο.");
-            return;
+            if (productIds.length === 0) {
+                setOrderError("Το καλάθι είναι άδειο.");
+                return;
+            }
+
+            // 2. Δημιουργία του DTO
+            const dto = {
+                productIds,
+                shippingMethod: "Standard",
+                paymentMethod: "Credit/Debit Card",
+            };
+
+            console.log("Sending order DTO:", dto);
+
+            // --- Η ΑΛΛΑΓΗ: Χρήση του api instance ---
+            // Δεν χρειάζεται πλήρες URL, ούτε headers, ούτε stringify
+            await api.post("orders", dto);
+
+            // 3. Επιτυχία: Καθαρισμός και επόμενο βήμα
+            dispatch(clearCart());
+            localStorage.removeItem("cartItems");
+            setActiveStep((s) => s + 1);
+
+        } catch (err) {
+            console.error("Error placing order:", err);
+            // Χειρισμός σφαλμάτων Axios
+            if (err.response) {
+                // Το Backend απάντησε με σφάλμα (π.χ. 400, 500)
+                setOrderError(err.response.data || "Failed to place order.");
+            } else if (err.request) {
+                // Δεν πήραμε απάντηση (π.χ. Network Error)
+                setOrderError("Network error. Server not responding.");
+            } else {
+                setOrderError(err.message || "An unexpected error occurred.");
+            }
         }
-
-        // ΣΤΑΘΕΡΟ shipping method (Standard) & τρόπος πληρωμής από το βήμα payment
-        const dto = {
-            productIds,
-            shippingMethod: "Standard",          // αυτό που είπες
-            paymentMethod: "Credit/Debit Card",  // ίδιο με το κείμενο που δείχνεις στο review
-        };
-
-        console.log("Sending order DTO:", dto);
-
-        const response = await fetch("https://localhost:7056/api/orders", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(dto),
-        });
-
-        if (!response.ok) {
-            const errText = await response.text();
-            throw new Error(errText || "Order failed");
-        }
-
-        // Επιτυχής παραγγελία → άδειασμα καλαθιού και επόμενο βήμα (thank you)
-        dispatch(clearCart());
-        localStorage.removeItem("cartItems");
-        setActiveStep((s) => s + 1);
-    } catch (err) {
-        console.error("Error placing order:", err);
-        setOrderError(err.message || "Failed to place order.");
     }
-}
 
 
     const handleNext = () => setActiveStep((s) => s + 1);
