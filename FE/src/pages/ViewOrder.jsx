@@ -64,39 +64,54 @@ const ViewOrder = () => {
     products: order.products || [],
   }));
 
-  const columns = [
-    { field: "orderId", headerName: "Order ID", width: 100 },
-    { field: "total", headerName: "Total", width: 120 },
-    {
-      field: "products",
-      headerName: "Products",
-      flex: 1, // Πιάνει όλο τον υπόλοιπο χώρο
-      renderCell: (params) => {
-        // 1. Παίρνουμε μόνο τα ονόματα (titles)
-        const productNames = params.value.map((p) => p.title).join(", ");
+    const columns = [
+        { field: "orderId", headerName: "Order ID", width: 100 },
+        { field: "total", headerName: "Total", width: 120 },
+        {
+            field: "products",
+            headerName: "Products",
+            flex: 1,
+            renderCell: (params) => {
+                // --- ΝΕΟΣ ΚΩΔΙΚΑΣ ΟΜΑΔΟΠΟΙΗΣΗΣ ---
 
-        return (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <Typography
-              variant="body2"
-              color="text.primary"
-              noWrap
-              title={productNames}
-            >
-              {productNames}
-            </Typography>
-          </Box>
-        );
-      },
-    },
-  ];
+                // 1. Μετράμε πόσες φορές υπάρχει κάθε όνομα προϊόντος
+                const productCounts = {};
+
+                (params.value || []).forEach((p) => {
+                    const title = p.title || "Unknown";
+                    // Αν υπάρχει ήδη το όνομα, αυξάνουμε κατά 1, αλλιώς ξεκινάμε από το 1
+                    productCounts[title] = (productCounts[title] || 0) + 1;
+                });
+
+                // 2. Φτιάχνουμε το string μορφής "5x Depon, 1x Aspirin"
+                const formattedText = Object.entries(productCounts)
+                    .map(([title, count]) => `${count}x ${title}`)
+                    .join(", ");
+
+                // ----------------------------------
+
+                return (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            height: "100%",
+                            width: "100%",
+                        }}
+                    >
+                        <Typography
+                            variant="body2"
+                            color="text.primary"
+                            noWrap
+                            title={formattedText} // Tooltip για να φαίνεται ολόκληρο αν είναι μεγάλο
+                        >
+                            {formattedText}
+                        </Typography>
+                    </Box>
+                );
+            },
+        },
+    ];
 
   return (
     <Box
