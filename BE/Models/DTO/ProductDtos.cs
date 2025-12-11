@@ -26,8 +26,6 @@ namespace GoodPills.Models.DTOs
         public int Rating { get; set; }
         public int Quantity { get; set; }
         public float Price { get; set; }
-
-        // ⬇️ Επιστρέφουμε στο Frontend το αποθηκευμένο base64
         public string? Base64Image { get; set; }
     }
 }

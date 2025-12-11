@@ -139,7 +139,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Seed Admin στην εκκίνηση
-await DataSeeder.SeedAdminAsync(app.Services, builder.Configuration);
+try
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        // Αυτό εφαρμόζει τις αλλαγές (π.χ. προσθήκη Quantity) στη βάση αυτόματα
+        db.Database.Migrate();
+
+        await DataSeeder.SeedAdminAsync(scope.ServiceProvider, builder.Configuration);
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database Migration failed: {ex.Message}");
+}
 
 app.Run();
