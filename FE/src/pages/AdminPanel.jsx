@@ -14,6 +14,8 @@ import medicineLogo from "../assets/images/medicineLogo.png";
 import ColorSchemeToggle from "../components/ColorSchemeToggle.jsx";
 import api from "../api/axiosInstance.js";
 import { useNavigate } from "react-router-dom";
+import Link from "@mui/joy/Link";
+
 
 const customTheme = extendTheme();
 
@@ -77,7 +79,6 @@ export default function AdminAddProduct() {
             return;
         }
 
-        // default
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
@@ -113,7 +114,7 @@ export default function AdminAddProduct() {
                 description: formData.description.trim(),
                 rating: ratingNum,
                 quantity: qtyNum,
-                price: priceNum,                 // στέλνουμε 2 δεκαδικά
+                price: priceNum,
                 base64Image: formData.base64Image,
             });
 
@@ -206,9 +207,33 @@ export default function AdminAddProduct() {
                         <ColorSchemeToggle />
                     </Box>
 
-                    <Typography component="h1" level="h3" mb={3}>
-                        Add New Product
-                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mb: 2,
+                        }}
+                    >
+                        {/* Group 1: Αριστερά (Εικονίδιο + Τίτλος) */}
+                        <Typography component="h1" level="h3" mb={3}>
+                            Add New Product
+                        </Typography>
+
+                        {/* Group 2: Δεξιά (Link) */}
+                        <Typography variant="body1">
+                            <Link
+                                onClick={() => navigate("/home")}
+                                underline="hover"
+                                sx={{
+                                    cursor: "pointer",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                Go back
+                            </Link>
+                        </Typography>
+                    </Box>
 
                     <form onSubmit={handleSubmit}>
                         <Box
